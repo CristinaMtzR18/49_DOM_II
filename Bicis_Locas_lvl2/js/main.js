@@ -1,86 +1,56 @@
 function validateForm(){
 	/* Escribe tú código aquí */
-    var nombre = document.getElementById("name").value;
-	var apellido = document.getElementById("lastname").value;
-	var email = document.getElementById("input-email").value;
-	var contrasena = document.getElementById("input-password").value;
-    var lista = document.querySelector("select").value;
-
-    if(nombre == null || nombre.length == 0 || /^\s+$/.test(nombre)){
-        var span = document.createElement("span");
-        var referencia= document.getElementById("name");
-        var padre=referencia.parentNode;
-        padre.insertBefore(span,referencia);
-        var texto = document.createTextNode("Debe ingresar su nombre");
-        span.appendChild(texto);
-        return span;
-    }   else {
-       var m = /^[a-zA-Z]*$/;
-       if(!nombre.search(m)) {
-            console.log("letra")
-            m = /[a-z]/g;
-        }    
-        if(!nombre.search(m)){
-            var span = document.createElement("span");
-            var referencia= document.getElementById("name");
-            var padre=referencia.parentNode;
-            padre.insertBefore(span,referencia);
-            var texto = document.createTextNode("La primera letra debe empezar con maýuscula");
-            span.appendChild(texto);
-            return span;
-        }
-    }
-
-    if(apellido == null || apellido.length == 0 || /^\s+$/.test(apellido)) {
-        var span = document.createElement("span");
-        var referencia= document.getElementById("lastname");
-        var padre=referencia.parentNode;
-        padre.insertBefore(span,referencia);
-        var texto = document.createTextNode("Debe ingresar su apellido");
-        span.appendChild(texto);
-        return span;
-    } else {
-       var n = /^[a-zA-Z]*$/;
-       if(!apellido.search(n)) {
-            console.log("letra")
-            n = /[a-z]/g;
-        }    
-        if(!apellido.search(n)){
-            var span = document.createElement("span");
-            var referencia= document.getElementById("lastname");
-            var padre=referencia.parentNode;
-            padre.insertBefore(span,referencia);
-            var texto = document.createTextNode("La primera letra debe empezar con maýuscula");
-            span.appendChild(texto);
-            return span;
-        }
-    }
-
-    if(!(/^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i.test(email))) {
-        var span = document.createElement("span");
-        var referencia= document.getElementById("input-email");
-        var padre=referencia.parentNode;
-        padre.insertBefore(span,referencia);
-        var texto = document.createTextNode("Verifique su email");
-        span.appendChild(texto);
-        return span;
-    } else if( contrasena == null || contrasena.length <= 6 || contrasena == "password" || contrasena == 123456 || contrasena == 098754 || /^\s+$/.test(contrasena) ) {
-        var span = document.createElement("span");
-        var referencia= document.getElementById("input-password");
-        var padre=referencia.parentNode;
-        padre.insertBefore(span,referencia);
-        var texto = document.createTextNode("Ingresa una contraseña válida");
-        span.appendChild(texto);
-        return span;
-    } 
-
-    if (lista == 0) {
-        var span = document.createElement("span");
-        var referencia= document.querySelector("select");
-        var padre=referencia.parentNode;
-        padre.insertBefore(span,referencia);
-        var texto = document.createTextNode("Debes seleccionar al menos un tipo de bici");
-        span.appendChild(texto);
-        return span;
-        }
+	/* Escribe tú código aquí */
+	//variables para validar los campos
+	var elNombre = document.getElementById("name").value;
+	var elApellido = document.getElementById("lastname").value;
+	var elCorreo = document.getElementById("input-email").value;
+	var elContrasenia = document.getElementById("input-password").value;
+	var elOpciones = document.getElementById("select-opciones").selectedIndex;
+	//Campo Nombre
+	/*Uso de Expresion regular (niego mi expresion regular) para nombres propios, donde acepta todas las mayusculas de A a Z
+	  ademas de las vocales acentuadas y en mayuscula, de esta condicion solo acepta una que es la
+	  inicial del nombre, posteriormente acepta las letras minusculas de la a a z la ñ y las vocales
+	  acentuadas, si hay dos nombre acepta espacio*/
+	if( !(/^([A-ZÁÉÍÓÚ]{1}[a-zñáéíóú]+[\s]*)+$/.test(elNombre)) ) {
+		var span = document.createElement("span");
+		span.innerHTML = "Ingresa tu Nombre";
+		var elFormuNombre = document.getElementById("formNombre");
+		elFormuNombre.appendChild(span);
+  	}
+  	//Campo Apellido
+  	//Misma explicacion de la expresion regular para nombre
+	if( !(/^([A-ZÁÉÍÓÚ]{1}[a-zñáéíóú]+[\s]*)+$/.test(elApellido)) ) {
+		var span = document.createElement("span");
+		span.innerHTML = "Ingresa tu Apellido";
+		var elFormuApellido = document.getElementById("formApellido");
+		elFormuApellido.appendChild(span);
+  	}
+  	//Campo Email
+  	/*Uso de expresion regular para validar el correo, primero valida que el correo sean letras minusculas, numeros
+  		guion medio y guion bajo, posteriormente va el simbolo de arroba que solo es uno y despues lentras minusculas, numeros
+  		 y el punto, despues de nuevo las minusculas.*/
+	if( !(/^([a-z]+[a-z1-9._-]*)@{1}([a-z1-9\.]{2,})\.([a-z]{2,3})$/.test(elCorreo)) ) {
+		var span = document.createElement("span");
+		span.innerHTML = "Ingresa tu Correo";
+		var elFormuCorreo = document.getElementById("formCorreo");
+		elFormuCorreo.appendChild(span);
+  	}
+	//Campo contraseña
+	/*Solo valide conforme a las condifiones que se nos dio*/
+	if( elContrasenia == null || elContrasenia.length < 6 || elContrasenia == "123456" || elContrasenia == "098754" || elContrasenia == "password") {
+		var span = document.createElement("span");
+		span.innerHTML = "Ingresa tu Contraseña";
+		var elFormuContrasena = document.getElementById("formContrasena");
+		elFormuContrasena.appendChild(span);
+  	}
+	//Campo opciones
+	/*Para este selector de opciones solo hay que cuidar que no quede en null o la opcion sea cero, ya que la opcion cero
+	 por lo regular es la instruccion de seleccionar*/
+	if( elOpciones == null || elOpciones == 0 ) {
+		var span = document.createElement("span");
+		span.innerHTML = "Ingresa tu bici";
+		var elFormuSelect = document.getElementById("formSelec");
+		elFormuSelect.appendChild(span);
+  	}
 }
