@@ -7,13 +7,14 @@ function validateForm(){
 	var elContrasena = document.getElementById("input-password").value;
 	var elOpciones = document.getElementById("select-opciones").selectedIndex;
 	//Borrar span
-	var spans = document.getElementsByTagName("span");
-	for(var i = 0; i < spans.length; i++){
-		spans[i].parentNode.removeChild(spans[i]);
+	var spans = document.getElementsByClassName("error");
+	while(spans.length>0){
+		spans[0].parentNode.removeChild(spans[0]);
 	}
 	//Campo Nombre
 	var elFormuNombre = document.getElementById("formNombre");
 	var spanNombre = document.createElement("span");
+	spanNombre.setAttribute("class","error");
 	if(elNombre == null || elNombre.length == 0 || /^\s+$/.test(elNombre)){
 		spanNombre.innerHTML = "Ingresa tu Nombre";
 		elFormuNombre.appendChild(spanNombre);
@@ -26,6 +27,7 @@ function validateForm(){
 			}
 	//Campo Apellido
 	var spanApellido = document.createElement("span");
+	spanApellido.setAttribute("class","error");
 	var elFormuApellido = document.getElementById("formApellido");
 	if(elApellido == null || elApellido.length == 0 || /^\s+$/.test(elApellido)){
 		spanApellido.innerHTML = "Ingresa tu Apellido";
@@ -40,6 +42,7 @@ function validateForm(){
 	//Campo Email
 	if( !(/^([a-z]+[a-z1-9._-]*)@{1}([a-z1-9\.]{2,})\.([a-z]{2,3})$/.test(elCorreo)) ) {
 		var spanCorreo = document.createElement("span");
+		spanCorreo.setAttribute("class","error");
 		spanCorreo.innerHTML = "Ingresa un correo valido. Ej: name@domain.com";
 		var elFormuCorreo = document.getElementById("formCorreo");
 		elFormuCorreo.appendChild(spanCorreo);
@@ -47,6 +50,7 @@ function validateForm(){
 	//Campo Contraseña
 	var elFormuContrasena = document.getElementById("formContrasena");
 	var spanContrasena = document.createElement("span");
+	spanContrasena.setAttribute("class","error");
 	if( elContrasena== null || elContrasena.length < 6) {
 		spanContrasena.innerHTML = "Ingresa una contraseña mayor a 6 caracteres";
 		elFormuContrasena.appendChild(spanContrasena);
@@ -61,6 +65,7 @@ function validateForm(){
 	//Campo opciones
 	if( elOpciones == null || elOpciones == 0 ) {
 		var spanOpciones = document.createElement("span");
+		spanOpciones.setAttribute("class","error");
 		spanOpciones.innerHTML = "Selecciona una opcion";
 		var elFormuSelect = document.getElementById("formSelec");
 		elFormuSelect.appendChild(spanOpciones);
