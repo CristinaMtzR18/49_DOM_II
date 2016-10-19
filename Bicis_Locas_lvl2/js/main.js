@@ -1,56 +1,68 @@
 function validateForm(){
 	/* Escribe tú código aquí */
-	/* Escribe tú código aquí */
 	//variables para validar los campos
 	var elNombre = document.getElementById("name").value;
 	var elApellido = document.getElementById("lastname").value;
 	var elCorreo = document.getElementById("input-email").value;
-	var elContrasenia = document.getElementById("input-password").value;
+	var elContrasena = document.getElementById("input-password").value;
 	var elOpciones = document.getElementById("select-opciones").selectedIndex;
+	//Borrar span
+	var spans = document.getElementsByTagName("span");
+	for(var i = 0; i < spans.length; i++){
+		spans[i].parentNode.removeChild(spans[i]);
+	}
 	//Campo Nombre
-	/*Uso de Expresion regular (niego mi expresion regular) para nombres propios, donde acepta todas las mayusculas de A a Z
-	  ademas de las vocales acentuadas y en mayuscula, de esta condicion solo acepta una que es la
-	  inicial del nombre, posteriormente acepta las letras minusculas de la a a z la ñ y las vocales
-	  acentuadas, si hay dos nombre acepta espacio*/
-	if( !(/^([A-ZÁÉÍÓÚ]{1}[a-zñáéíóú]+[\s]*)+$/.test(elNombre)) ) {
-		var span = document.createElement("span");
-		span.innerHTML = "Ingresa tu Nombre";
-		var elFormuNombre = document.getElementById("formNombre");
-		elFormuNombre.appendChild(span);
-  	}
-  	//Campo Apellido
-  	//Misma explicacion de la expresion regular para nombre
-	if( !(/^([A-ZÁÉÍÓÚ]{1}[a-zñáéíóú]+[\s]*)+$/.test(elApellido)) ) {
-		var span = document.createElement("span");
-		span.innerHTML = "Ingresa tu Apellido";
-		var elFormuApellido = document.getElementById("formApellido");
-		elFormuApellido.appendChild(span);
-  	}
-  	//Campo Email
-  	/*Uso de expresion regular para validar el correo, primero valida que el correo sean letras minusculas, numeros
-  		guion medio y guion bajo, posteriormente va el simbolo de arroba que solo es uno y despues lentras minusculas, numeros
-  		 y el punto, despues de nuevo las minusculas.*/
+	var elFormuNombre = document.getElementById("formNombre");
+	var spanNombre = document.createElement("span");
+	if(elNombre == null || elNombre.length == 0 || /^\s+$/.test(elNombre)){
+		spanNombre.innerHTML = "Ingresa tu Nombre";
+		elFormuNombre.appendChild(spanNombre);
+		}else if(/^[0-9]$/.test(elNombre)){
+			spanNombre.innerHTML = "No agregue números";
+			elFormuNombre.appendChild(spanNombre);
+			}else if(/^[a-z]$/.test(elNombre[0])){
+				spanNombre.innerHTML = "La primera letra debe ser mayúscula";
+				elFormuNombre.appendChild(spanNombre);
+			}
+	//Campo Apellido
+	var spanApellido = document.createElement("span");
+	var elFormuApellido = document.getElementById("formApellido");
+	if(elApellido == null || elApellido.length == 0 || /^\s+$/.test(elApellido)){
+		spanApellido.innerHTML = "Ingresa tu Apellido";
+		elFormuApellido.appendChild(spanApellido);
+		}else if(/^[0-9]$/.test(elApellido)){
+			spanApellido.innerHTML = "No agregue números";
+			elFormuApellido.appendChild(spanApellido);
+			}else if(/^[a-z]$/.test(elApellido[0])){
+				spanApellido.innerHTML = "La primera letra debe ser mayúscula";
+				elFormuApellido.appendChild(spanApellido);
+			}
+	//Campo Email
 	if( !(/^([a-z]+[a-z1-9._-]*)@{1}([a-z1-9\.]{2,})\.([a-z]{2,3})$/.test(elCorreo)) ) {
-		var span = document.createElement("span");
-		span.innerHTML = "Ingresa tu Correo";
+		var spanCorreo = document.createElement("span");
+		spanCorreo.innerHTML = "Ingresa un correo valido. Ej: name@domain.com";
 		var elFormuCorreo = document.getElementById("formCorreo");
-		elFormuCorreo.appendChild(span);
-  	}
-	//Campo contraseña
-	/*Solo valide conforme a las condifiones que se nos dio*/
-	if( elContrasenia == null || elContrasenia.length < 6 || elContrasenia == "123456" || elContrasenia == "098754" || elContrasenia == "password") {
-		var span = document.createElement("span");
-		span.innerHTML = "Ingresa tu Contraseña";
-		var elFormuContrasena = document.getElementById("formContrasena");
-		elFormuContrasena.appendChild(span);
-  	}
+		elFormuCorreo.appendChild(spanCorreo);
+	}
+	//Campo Contraseña
+	var elFormuContrasena = document.getElementById("formContrasena");
+	var spanContrasena = document.createElement("span");
+	if( elContrasena== null || elContrasena.length < 6) {
+		spanContrasena.innerHTML = "Ingresa una contraseña mayor a 6 caracteres";
+		elFormuContrasena.appendChild(spanContrasena);
+		console.log(spanContrasena.parentNode);
+		}else if(elContrasena == "123456" || elContrasena == "098754"){
+			spanContrasena.innerHTML = "Ingresa una contraseña diferente a 123456 o 098754";
+			elFormuContrasena.appendChild(spanContrasena);
+			}else if (elContrasena == "password"){
+				spanContrasena.innerHTML = "Ingresa una contraseña diferente a password";
+				elFormuContrasena.appendChild(spanContrasena);
+	}
 	//Campo opciones
-	/*Para este selector de opciones solo hay que cuidar que no quede en null o la opcion sea cero, ya que la opcion cero
-	 por lo regular es la instruccion de seleccionar*/
 	if( elOpciones == null || elOpciones == 0 ) {
-		var span = document.createElement("span");
-		span.innerHTML = "Ingresa tu bici";
+		var spanOpciones = document.createElement("span");
+		spanOpciones.innerHTML = "Selecciona una opcion";
 		var elFormuSelect = document.getElementById("formSelec");
-		elFormuSelect.appendChild(span);
-  	}
+		elFormuSelect.appendChild(spanOpciones);
+	}
 }
